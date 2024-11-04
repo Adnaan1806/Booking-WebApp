@@ -5,10 +5,11 @@ import Doctors from './pages/Doctors'
 import Appointment from './pages/Appointment'
 import MyAppointments from './pages/MyAppointments'
 import MyProfile from './pages/MyProfile'
-import { Contact } from './pages/Contact'
+import Contact  from './pages/Contact'
 import About from './pages/About'
 import Login from './pages/Login'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route path='/my-appointments' element={<MyAppointments />} />
         <Route path='/appointment/:docId' element={<Appointment />} />
       </Routes>
+      <Footer />
     </div>
   )
 }
