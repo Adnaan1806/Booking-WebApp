@@ -18,11 +18,12 @@ const Login = () => {
         if(state === "Admin"){
            const {data} = await axios.post(backendUrl + '/api/admin/login', {email, password});
            if(data.success){
-            localStorage.setItem("aToken", data.token);
+            localStorage.setItem("aToken", data.token); //ADMIN_EMAIL = "admin@timely.com"
+                                                        //ADMIN_PASSWORD = "admin12345"
                setAToken(data.token);
            }
            else{
-             toast.error(data.message);
+             toast.error(data.message);    
            }
         }
         else{
