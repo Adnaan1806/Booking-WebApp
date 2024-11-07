@@ -6,7 +6,10 @@ export default {
       colors: {
         primary: "#CC2B52",
         customOrange: "#CC2B52",
-        lightOrange: "#FFE3E3",
+        lightOrange: "#8967B3",
+        lightRed: "#AF1740",
+        green: "#15B392",
+        purple: "#624E88",
       },
       gridTemplateColumns: {
         auto: "repeat(auto-fill, minmax(200px, 1fr))",

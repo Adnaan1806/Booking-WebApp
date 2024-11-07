@@ -28,7 +28,7 @@ const MyAppointments = () => {
             <div></div>
 
             <div className="flex flex-col gap-2 justify-end">
-              <button className="border text-sm text-stone-500 text-center sm:min-w-48 py-2 rounded-lg hover:bg-customOrange hover:text-white hover:font-semibold transition-all duration-300">
+              <button className="border text-sm text-stone-500 text-center sm:min-w-48 py-2 rounded-lg hover:bg-green hover:text-white hover:font-semibold transition-all duration-300">
                 Pay Online
               </button>
               <button className="border text-sm text-stone-500 text-center sm:min-w-48 py-2 rounded-lg hover:bg-red-600 hover:text-white hover:font-semibold transition-all duration-300">Cancel Appointment</button>

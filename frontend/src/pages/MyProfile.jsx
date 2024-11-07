@@ -43,7 +43,7 @@ const MyProfile = () => {
           <p className="font-medium">Phone:</p>
           {isEdit ? (
             <input
-            className="bg-gray-100 max-w-52"
+            className="bg-gray-100 max-w-52 p-1 rounded-sm"
               type="text" 
               value={userData.phone}
               onChange={(e) =>
@@ -57,7 +57,7 @@ const MyProfile = () => {
           {isEdit ? (
             <p>
               <input
-              className="bg-gray-50"
+              className="bg-gray-50 p-1 rounded-sm"
                 onChange={(e) =>
                   setUserData((prev) => ({
                     ...prev,
@@ -69,7 +69,7 @@ const MyProfile = () => {
               />
               <br />
               <input
-              className="bg-gray-50"
+              className="bg-gray-50 p-1 rounded-sm"
                 onChange={(e) =>
                   setUserData((prev) => ({
                     ...prev,
@@ -94,7 +94,7 @@ const MyProfile = () => {
           <p className="font-medium">Gender:</p>
           {isEdit ? (
             <select
-            className="max-w-20 bg-gray-100"
+            className="max-w-20 bg-gray-100 p-1 rounded-sm"
               onChange={(e) =>
                 setUserData((prev) => ({ ...prev, gender: e.target.value }))
               }
@@ -109,7 +109,7 @@ const MyProfile = () => {
           <p className="font-medium">Birthday:</p>
           {isEdit ? (
             <input
-            className="max-w-28 bg-gray-100"
+            className="max-w-28 bg-gray-100 p-1 rounded-sm"
               type="date"
               value={userData.dob}
               onChange={(e) =>

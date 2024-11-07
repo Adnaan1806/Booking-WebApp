@@ -19,7 +19,7 @@ const Contact = () => {
           <p className="text-gray-500">Tel: (+94) 76-272-2093 <br /> Email: adnaanjanees0@gmail.com</p>
           <p className="font-semibold text-lg text-gray-600">Careers at PRESCRIPTO</p>
           <p className="text-gray-500">Learn more about our teams and job openings</p>
-          <button className="border border-black px-8 py-4 text-sm hover:bg-black hover:text-white rounded-lg transition-all duration-500">Explore Jobs</button>
+          <button className="border border-customOrange px-8 py-4 text-sm hover:bg-customOrange hover:text-white rounded-lg transition-all duration-500">Explore Jobs</button>
         </div>
 
       </div>

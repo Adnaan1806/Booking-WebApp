@@ -14,10 +14,10 @@ const Login = () => {
   return (
     <form className="min-h-[80vh] flex items-center">
       <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-lg text-zinc-600 text-sm shadow-lg">
-        <p className="text-2xl font-semibold">
+        <p className="text-2xl w-full flex justify-center font-semibold">
           {state === "Sign Up" ? "Create Account" : "Login"}
         </p>
-        <p>
+        <p className="w-full flex justify-center">
           Please {state === "Sign Up" ? "sign up" : "log in"} to book
           appointment
         </p>
@@ -55,31 +55,33 @@ const Login = () => {
             required
           />
         </div>
-        <button className="bg-customOrange text-white w-full py-2 rounded-md text-base mt-2">
+        <button className="bg-customOrange text-white w-full py-2 rounded-md text-base mt-2 hover:bg-lightRed">
           {state === "Sign Up" ? "Create Account" : "Login"}
         </button>
 
-        {state === "Sign Up" ? (
-          <p>
-            Already have an account?{" "}
-            <span
-              onClick={() => setState("Login")}
-              className="text-customOrange font-medium underline cursor-pointer"
-            >
-              Login
-            </span>
-          </p>
-        ) : (
-          <p>
-            Don't have an account?{" "}
-            <span
-              onClick={() => setState("Sign Up")}
-              className="text-customOrange font-medium underline cursor-pointer"
-            >
-              Sign up
-            </span>
-          </p>
-        )}
+        <div className="w-full flex justify-center mt-1">
+          {state === "Sign Up" ? (
+            <p>
+              Already have an account?{" "}
+              <span
+                onClick={() => setState("Login")}
+                className="text-customOrange font-medium underline cursor-pointer"
+              >
+                Login
+              </span>
+            </p>
+          ) : (
+            <p>
+              Don't have an account?{" "}
+              <span
+                onClick={() => setState("Sign Up")}
+                className="text-customOrange font-medium underline cursor-pointer"
+              >
+                Sign up
+              </span>
+            </p>
+          )}
+        </div>
       </div>
     </form>
   );
