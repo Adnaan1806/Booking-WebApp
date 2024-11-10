@@ -7,8 +7,8 @@ const Sidebar = () => {
   const { aToken } = useContext(AdminContext);
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4">
-      <div className="w-80 bg-white border-r rounded-xl shadow-md p-5 flex flex-col space-y-2">
+    <div className="flex items-center justify-center min-h-screen p-8">
+      <div className="w-80 bg-white border-r rounded-xl shadow-md p-8 flex flex-col space-y-2">
         {aToken && (
           <ul className="w-full space-y-5">
             <li>
