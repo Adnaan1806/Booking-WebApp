@@ -19,7 +19,7 @@ useEffect(() => {
       <div className='w-full flex flex-wrap gap-4 pt-5 gap-y-6'>
          {doctors.map((item,index) =>(
            <div className='border border-indigo-200 rounded-xl max-w-56 overflow-hidden cursor-pointer group' key={index}>
-               <img className='bg-primary group-hover:bg-lightRed transition-all duration-500' src={item.image} alt="" />
+               <img className='bg-purple group-hover:bg-lightRed transition-all duration-500' src={item.image} alt="" />
                <div className='p-4'>
                 <p className='text-neutral-800 text-lg font-medium'>{item.name}</p>
                 <p className='text-zinc-600 text-sm'>{item.speciality}</p>

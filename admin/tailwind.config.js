@@ -10,6 +10,7 @@ export default {
         primary: "#CC2B52",
         lightRed: "#AF1740",
         green: "#15B392",
+        purple: "#624E88",
       }
     },
   },
