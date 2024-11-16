@@ -75,4 +75,8 @@ const loginUser = async (req, res) => {
   }
 };
 
+//API to get users profile data
+
+
+
 export { registerUser, loginUser };
