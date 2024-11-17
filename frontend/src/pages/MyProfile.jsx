@@ -184,14 +184,14 @@ const MyProfile = () => {
         <div className="mt-8 flex justify-center">
           {isEdit ? (
             <button
-              className="bg-customOrange text-white px-8 py-2 rounded-lg shadow hover:bg-orange-500 transition"
+              className="bg-customOrange text-white px-8 py-2 rounded-lg shadow hover:bg-red-800 transition"
               onClick={updateUserProfile}
             >
               Save Information
             </button>
           ) : (
             <button
-              className="bg-gray-100 text-gray-700 px-8 py-2 rounded-lg shadow hover:bg-gray-200 transition"
+              className="bg-customOrange text-white px-8 py-2 rounded-lg shadow hover:bg-red-800 transition"
               onClick={() => setIsEdit(true)}
             >
               Edit Profile
