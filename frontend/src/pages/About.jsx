@@ -3,22 +3,24 @@ import { assets } from "../assets/assets";
 
 const About = () => {
   return (
-    <div>
-      <div className="text-center text-2xl pt-10 text-gray-500">
+    <div className="bg-gray-50 min-h-screen p-8 md:p-20">
+      {/* Header */}
+      <div className="text-center text-4xl font-bold text-gray-800 pt-10">
         <p>
-          About <span className="text-gray-700 font-medium">US</span>
+          About <span className="text-primary">US</span>
         </p>
       </div>
 
-      <div className="my-10 flex flex-col md:flex-row gap-12">
+      {/* About Section */}
+      <div className="my-16 flex flex-col md:flex-row items-center gap-12">
         <img
-          className="w-full md:max-w-[360px]"
+          className="w-full md:max-w-[400px] rounded-xl shadow-lg transform hover:scale-105 transition duration-300"
           src={assets.about_image}
-          alt=""
+          alt="About Us"
         />
-        <div className="flex flex-col justify-center gap-6 md:w-2/4 text-sm text-gray-600">
+        <div className="flex flex-col justify-center gap-6 md:w-3/5 text-base text-gray-700 leading-relaxed">
           <p>
-            Prescripto is a streamlined appointment booking web app designed to
+            <span className="font-semibold">Prescripto</span> is a streamlined appointment booking web app designed to
             simplify scheduling for users and service providers. It offers an
             intuitive interface, allowing users to book, manage, and track
             appointments with ease, ensuring a hassle-free experience.
@@ -29,35 +31,50 @@ const About = () => {
             optimize time management, enhancing the overall user experience for
             both clients and providers.
           </p>
-          <b className="text-gray-800">Our Vision</b>
+          <h3 className="text-2xl font-semibold text-gray-800">Our Vision</h3>
           <p>
             Our vision is to revolutionize the appointment booking experience by
-            creating a seamless, efficient, and user-friendly platform.{" "}
+            creating a seamless, efficient, and user-friendly platform.
           </p>
         </div>
       </div>
 
-      <div className="text-xl my-14">
+      {/* Why Choose Us Section */}
+      <div className="text-center text-3xl font-bold text-gray-800 my-20">
         <p>
-          WHY <span className="text-gray-700 font-semibold">CHOOSE US</span>
+          WHY <span className="text-primary">CHOOSE US</span>
         </p>
       </div>
 
-      <div className='flex flex-col gap-1 md:flex-row mb-20'>
-        <div className='border rounded-lg px-10 md:px-16 py-8 sm:py-16 flex flex-col gap-5 text-[15px] hover:bg-primary hover:text-white transition-all duration-300 text-gray-600 cursor-pointer'>
-          <b>Efficiency:</b>
-          <p>Streamlined appointment scheduling that fits into your busy lifestyle.</p>
+      {/* Features Section */}
+      <div className="flex flex-col md:flex-row gap-8 md:gap-6 mb-20">
+        {/* Card 1 */}
+        <div className="flex-1 border rounded-lg bg-white shadow-md px-8 py-12 text-center hover:bg-primary hover:text-white transition-all duration-300 cursor-pointer">
+          <h4 className="text-xl font-semibold mb-4">Efficiency</h4>
+          <p className="text-gray-600 md:text-gray-200">
+            Streamlined appointment scheduling that fits into your busy
+            lifestyle.
+          </p>
         </div>
-        <div className='border rounded-lg px-10 md:px-16 py-8 sm:py-16 flex flex-col gap-5 text-[15px] hover:bg-primary hover:text-white transition-all duration-300 text-gray-600 cursor-pointer'>
-          <b>Convenience:</b>
-          <p>Access to a network of trusted healthcare professionals in your area.</p>
+
+        {/* Card 2 */}
+        <div className="flex-1 border rounded-lg bg-white shadow-md px-8 py-12 text-center hover:bg-primary hover:text-white transition-all duration-300 cursor-pointer">
+          <h4 className="text-xl font-semibold mb-4">Convenience</h4>
+          <p className="text-gray-600 md:text-gray-200">
+            Access to a network of trusted healthcare professionals in your
+            area.
+          </p>
         </div>
-        <div className='border rounded-lg px-10 md:px-16 py-8 sm:py-16 flex flex-col gap-5 text-[15px] hover:bg-primary hover:text-white transition-all duration-300 text-gray-600 cursor-pointer'>
-          <b>Personalization:</b>
-          <p>Tailored recommendations and remainders to help you stay on top of your health.</p>
+
+        {/* Card 3 */}
+        <div className="flex-1 border rounded-lg bg-white shadow-md px-8 py-12 text-center hover:bg-primary hover:text-white transition-all duration-300 cursor-pointer">
+          <h4 className="text-xl font-semibold mb-4">Personalization</h4>
+          <p className="text-gray-600 md:text-gray-200">
+            Tailored recommendations and reminders to help you stay on top of
+            your health.
+          </p>
         </div>
       </div>
-
     </div>
   );
 };
