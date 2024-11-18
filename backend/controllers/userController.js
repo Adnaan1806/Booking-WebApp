@@ -2,7 +2,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
-import {v2 as cloudinary} from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 import doctorModel from "../models/doctorModel.js";
 import appointmentModel from "../models/appointmentModel.js";
 
@@ -80,14 +80,11 @@ const loginUser = async (req, res) => {
 
 const getProfile = async (req, res) => {
   try {
-
     const { userId } = req.body;
     const userData = await userModel.findById(userId).select("-password");
 
     res.json({ success: true, userData });
-
-  } 
-  catch (error) {
+  } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
@@ -96,60 +93,61 @@ const getProfile = async (req, res) => {
 //API to update users profile data
 
 const updateProfile = async (req, res) => {
-  try{
-
-    const {userId, name, phone, address, dob, gender} = req.body;
+  try {
+    const { userId, name, phone, address, dob, gender } = req.body;
     const imageFile = req.file;
 
-    if(!name || !phone || !address || !dob || !gender){
-        return res.json({success: false, message: "Please fill in all fields"});
+    if (!name || !phone || !address || !dob || !gender) {
+      return res.json({ success: false, message: "Please fill in all fields" });
     }
 
-  await userModel.findByIdAndUpdate(userId, {name, phone, address:JSON.parse(address), dob, gender})
+    await userModel.findByIdAndUpdate(userId, {
+      name,
+      phone,
+      address: JSON.parse(address),
+      dob,
+      gender,
+    });
 
-  if(imageFile){
-    //upload image to cloudinary
-    const imageUpload = await cloudinary.uploader.upload(imageFile.path,{resource_type: "image"});
-    const imageUrl = imageUpload.secure_url;
+    if (imageFile) {
+      //upload image to cloudinary
+      const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+        resource_type: "image",
+      });
+      const imageUrl = imageUpload.secure_url;
 
-    await userModel.findByIdAndUpdate(userId, {image: imageUrl})
-  }
+      await userModel.findByIdAndUpdate(userId, { image: imageUrl });
+    }
 
-  res.json({success: true, message: "Profile updated successfully"});
-
-  }
-  catch(error){
+    res.json({ success: true, message: "Profile updated successfully" });
+  } catch (error) {
     console.log(error);
-    res.json({success: false, message: error.message});
+    res.json({ success: false, message: error.message });
   }
-}
-
+};
 
 //API to book Appointment
 
 const bookAppointment = async (req, res) => {
-  try{
-
-    const {userId, docId, slotDate, slotTime} = req.body;
+  try {
+    const { userId, docId, slotDate, slotTime } = req.body;
 
     const docData = await doctorModel.findById(docId).select("-password");
 
-    if(!docData.available){
-      return res.json({success: false, message: "Doctor not available"});
+    if (!docData.available) {
+      return res.json({ success: false, message: "Doctor not available" });
     }
 
     let slots_booked = docData.slots_booked;
 
     //check if slot is already booked
-    if(slots_booked[slotDate]){
-      if(slots_booked[slotDate].includes(slotTime)){
-        return res.json({success: false, message: "Slot is already booked"});
-      }
-      else{
+    if (slots_booked[slotDate]) {
+      if (slots_booked[slotDate].includes(slotTime)) {
+        return res.json({ success: false, message: "Slot is already booked" });
+      } else {
         slots_booked[slotDate].push(slotTime);
       }
-    }
-    else{
+    } else {
       slots_booked[slotDate] = [];
       slots_booked[slotDate].push(slotTime);
     }
@@ -166,24 +164,38 @@ const bookAppointment = async (req, res) => {
       amount: docData.fees,
       slotTime,
       slotDate,
-      date: Date.now()
-    }
+      date: Date.now(),
+    };
 
     const newAppointment = new appointmentModel(appointmentData);
     await newAppointment.save();
 
     //save new slots data in doctors data
 
-    await doctorModel.findByIdAndUpdate(docId, {slots_booked});
+    await doctorModel.findByIdAndUpdate(docId, { slots_booked });
 
-    res.json({success: true, message: "Appointment booked successfully"});
-
-  }
-  catch(error){
+    res.json({ success: true, message: "Appointment booked successfully" });
+  } catch (error) {
     console.log(error);
-    res.json({success: false, message: error.message});
+    res.json({ success: false, message: error.message });
   }
-}
+};
 
+//API to get all appointments of user my appointment page
 
-export { registerUser, loginUser, getProfile, updateProfile, bookAppointment };
+const listAppointment = async (req, res) => {
+  try {
+
+    const {userId} = req.body;
+    const appointments = await appointmentModel.find({userId})
+
+    res.json({success: true, appointments})
+
+  } 
+  catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, listAppointment };
