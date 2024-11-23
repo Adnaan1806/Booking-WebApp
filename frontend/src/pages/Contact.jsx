@@ -3,11 +3,11 @@ import { assets } from "../assets/assets";
 
 const Contact = () => {
   return (
-    <div className="bg-gray-50 min-h-screen p-8 md:p-20">
+    <div className="min-h-screen p-8 md:p-20">
       {/* Header */}
-      <div className="text-center text-4xl font-bold text-gray-800 pt-9">
+      <div className="text-center text-4xl font-bold text-gray-800 pt-5">
         <p>
-          CONTACT <span className="text-primary">US</span>
+          Contact <span className="text-primary">US</span>
         </p>
       </div>
 

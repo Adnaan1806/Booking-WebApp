@@ -3,9 +3,9 @@ import { assets } from "../assets/assets";
 
 const About = () => {
   return (
-    <div className="bg-gray-50 min-h-screen p-8 md:p-20">
+    <div className="min-h-screen p-8 md:p-20">
       {/* Header */}
-      <div className="text-center text-4xl font-bold text-gray-800 pt-10">
+      <div className="text-center text-4xl font-bold text-gray-800 pt-5">
         <p>
           About <span className="text-primary">US</span>
         </p>
