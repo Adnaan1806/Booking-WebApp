@@ -21,12 +21,21 @@ const registerUser = async (req, res) => {
       return res.json({ success: false, message: "Invalid email" });
     }
 
-    if (password.length < 8) {
-      return res.json({
-        success: false,
-        message: "Password must be atleast 8 characters",
-      });
-    }
+       // Validate password strength
+       const strongPasswordOptions = {
+        minLength: 8, // Minimum 8 characters
+        minLowercase: 1, // At least 1 lowercase letter
+        minUppercase: 1, // At least 1 uppercase letter
+        minNumbers: 1, // At least 1 number
+        minSymbols: 1, // At least 1 special character
+      };
+  
+      if (!validator.isStrongPassword(password, strongPasswordOptions)) {
+        return res.json({
+          success: false,
+          message: "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.",
+        });
+      }
 
     //hashing the password
     const salt = await bcrypt.genSalt(10);
