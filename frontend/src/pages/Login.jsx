@@ -5,8 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-
-  const {backendUrl, token, setToken} = useContext(AppContext);
+  const { backendUrl, token, setToken } = useContext(AppContext);
   const navigate = useNavigate();
 
   const [state, setState] = useState("Sign Up");
@@ -18,39 +17,38 @@ const Login = () => {
   const onSubmitHander = async (event) => {
     event.preventDefault();
 
-    try{
-      if(state === "Sign Up"){
-        const {data} = await axios.post(backendUrl + '/api/user/register', {name,password,email})
-        if(data.success){
-          localStorage.setItem('token',data.token);
+    try {
+      if (state === "Sign Up") {
+        const { data } = await axios.post(backendUrl + "/api/user/register", { name, password, email });
+        if (data.success) {
+          localStorage.setItem("token", data.token);
           setToken(data.token);
+          toast.success("Account created successfully!");
+          // Redirect to login page after successful account creation
+          setState("Login");
+          navigate("/login");  // Navigate to login page
+        } else {
+          toast.error(data.message);
         }
-        else{
+      } else {
+        const { data } = await axios.post(backendUrl + "/api/user/login", { password, email });
+        if (data.success) {
+          localStorage.setItem("token", data.token);
+          setToken(data.token);
+          window.location.href = "http://localhost:3004/";  // Redirect after successful login
+        } else {
           toast.error(data.message);
         }
       }
-      else{
-          const {data} = await axios.post(backendUrl + '/api/user/login', {password,email})
-          if(data.success){
-            localStorage.setItem('token',data.token);
-            setToken(data.token);
-          }
-          else{
-            toast.error(data.message);
-          }
-        
-      }
-
-    }
-    catch(error){
+    } catch (error) {
       toast.error(error.message);
     }
   };
 
   useEffect(() => {
-     if(token){
-       navigate('/')
-     }
+    if (token) {
+      navigate("/");
+    }
   }, [token]);
 
   return (
@@ -60,8 +58,7 @@ const Login = () => {
           {state === "Sign Up" ? "Create Account" : "Login"}
         </p>
         <p className="w-full flex justify-center">
-          Please {state === "Sign Up" ? "sign up" : "log in"} to book
-          appointment
+          Please {state === "Sign Up" ? "sign up" : "log in"} to book an appointment
         </p>
 
         {state === "Sign Up" && (
@@ -97,7 +94,10 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit" className="bg-customOrange text-white w-full py-2 rounded-md text-base mt-2 hover:bg-lightRed">
+        <button
+          type="submit"
+          className="bg-customOrange text-white w-full py-2 rounded-md text-base mt-2 hover:bg-lightRed"
+        >
           {state === "Sign Up" ? "Create Account" : "Login"}
         </button>
 
