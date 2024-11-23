@@ -3,39 +3,46 @@ import { AppContext } from "../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons
 
 const Login = () => {
   const { backendUrl, token, setToken } = useContext(AppContext);
   const navigate = useNavigate();
 
   const [state, setState] = useState("Sign Up");
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // New state for toggling password visibility
 
   const onSubmitHander = async (event) => {
     event.preventDefault();
 
     try {
       if (state === "Sign Up") {
-        const { data } = await axios.post(backendUrl + "/api/user/register", { name, password, email });
+        const { data } = await axios.post(backendUrl + "/api/user/register", {
+          name,
+          password,
+          email,
+        });
         if (data.success) {
           localStorage.setItem("token", data.token);
           setToken(data.token);
           toast.success("Account created successfully!");
-          // Redirect to login page after successful account creation
           setState("Login");
-          navigate("/login");  // Navigate to login page
+          navigate("/login");
         } else {
           toast.error(data.message);
         }
       } else {
-        const { data } = await axios.post(backendUrl + "/api/user/login", { password, email });
+        const { data } = await axios.post(backendUrl + "/api/user/login", {
+          password,
+          email,
+        });
         if (data.success) {
           localStorage.setItem("token", data.token);
           setToken(data.token);
-          window.location.href = "http://localhost:3004/";  // Redirect after successful login
+          window.location.href = "http://localhost:3004/";
         } else {
           toast.error(data.message);
         }
@@ -58,7 +65,8 @@ const Login = () => {
           {state === "Sign Up" ? "Create Account" : "Login"}
         </p>
         <p className="w-full flex justify-center">
-          Please {state === "Sign Up" ? "sign up" : "log in"} to book an appointment
+          Please {state === "Sign Up" ? "sign up" : "log in"} to book an
+          appointment
         </p>
 
         {state === "Sign Up" && (
@@ -84,15 +92,21 @@ const Login = () => {
             required
           />
         </div>
-        <div className="w-full">
+        <div className="w-full relative">
           <p>Password</p>
           <input
             className="border border-zinc-300 rounded w-full p-2 mt-1"
-            type="password"
+            type={isPasswordVisible ? "text" : "password"} // Toggle between text and password
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             required
           />
+          <span
+            className="absolute right-3 top-10 cursor-pointer text-gray-500"
+            onClick={() => setIsPasswordVisible(!isPasswordVisible)} // Toggle visibility state
+          >
+            {!isPasswordVisible ? <FaEyeSlash /> : <FaEye />} {/* Show icon */}
+          </span>
         </div>
         <button
           type="submit"
