@@ -83,14 +83,14 @@ const MyAppointments = () => {
       );
   
       if (data.success) {
-        toast.success("Payment status updated!");
+        toast.success("Payment Successfull");
         getUserAppointments();
       } else {
         toast.error(data.message);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to update payment status");
+      toast.error("Payment Failed");
     }
   };
   
@@ -132,7 +132,6 @@ const MyAppointments = () => {
     if (isSuccess && appointmentId) {
       // Call the updatePaymentStatus function after a successful payment
       updatePaymentStatus(appointmentId);
-      setShowPopup(true);
   
       // Remove the URL parameters after handling them
       setSearchParams({});  // This will remove all the query parameters from the URL
@@ -145,89 +144,6 @@ const MyAppointments = () => {
       <p className="pb-3 mt-12 font-medium text-zinc-700 border-b">
         My Appointments
       </p>
-
-      {/* Payment Success Popup */}
-      {showPopup && (
-  <div
-    style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      zIndex: 1000,
-      animation: "fadeIn 0.3s ease",
-    }}
-  >
-    <div
-      style={{
-        backgroundColor: "#fff",
-        padding: "30px 40px",
-        borderRadius: "12px",
-        textAlign: "center",
-        width: "350px",
-        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
-        transform: "scale(1.1)",
-        animation: "scaleIn 0.3s ease",
-      }}
-    >
-      <h2
-        style={{
-          fontFamily: "'Roboto', sans-serif",
-          fontWeight: 600,
-          fontSize: "22px",
-          color: "#333",
-          marginBottom: "10px",
-        }}
-      >
-        Payment Successful!
-      </h2>
-      <p
-        style={{
-          fontFamily: "'Roboto', sans-serif",
-          color: "#555",
-          fontSize: "14px",
-          marginBottom: "20px",
-          lineHeight: "1.6",
-        }}
-      >
-        Your payment for the appointment was completed successfully.
-      </p>
-      <button
-        onClick={closePopup}
-        style={{
-          backgroundColor: "#4caf50",
-          color: "white",
-          border: "none",
-          padding: "12px 25px",
-          borderRadius: "30px",
-          cursor: "pointer",
-          fontWeight: "bold",
-          fontSize: "16px",
-          transition: "0.3s ease",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.backgroundColor = "#45a049";
-          e.target.style.transform = "scale(1.05)";
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.backgroundColor = "#4caf50";
-          e.target.style.transform = "scale(1)";
-        }}
-      >
-        OK
-      </button>
-    </div>
-  </div>
-  
-)}
-
-
 
 
       <div>
