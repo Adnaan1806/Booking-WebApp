@@ -59,7 +59,7 @@ const MyAppointments = () => {
         { appointmentId },
         { headers: { token } }
       );
-
+  
       if (data.success) {
         // Redirect to Stripe Checkout
         const stripe = await stripePromise;
@@ -72,6 +72,28 @@ const MyAppointments = () => {
       toast.error("Failed to initiate payment");
     }
   };
+  
+  // After successful payment, call this function
+  const updatePaymentStatus = async (appointmentId) => {
+    try {
+      const { data } = await axios.post(
+        backendUrl + "/api/user/update-payment-status",
+        { appointmentId },
+        { headers: { token } }
+      );
+  
+      if (data.success) {
+        toast.success("Payment status updated!");
+        getUserAppointments();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update payment status");
+    }
+  };
+  
 
   const cancelAppointment = async (appointmentId) => {
     try {
@@ -94,23 +116,29 @@ const MyAppointments = () => {
     }
   };
 
+  const closePopup = () => {
+    setShowPopup(false); // Close the popup when clicked
+  };
+
   useEffect(() => {
     if (token) {
       getUserAppointments();
     }
-
+  
     // Check for the `success` parameter in the URL
     const isSuccess = searchParams.get("success");
-    if (isSuccess) {
+    const appointmentId = searchParams.get("appointmentId");
+  
+    if (isSuccess && appointmentId) {
+      // Call the updatePaymentStatus function after a successful payment
+      updatePaymentStatus(appointmentId);
       setShowPopup(true);
+  
+      // Remove the URL parameters after handling them
+      setSearchParams({});  // This will remove all the query parameters from the URL
     }
   }, [token, searchParams]);
-
-  const closePopup = () => {
-    setShowPopup(false);
-    // Remove the success query parameter and reload appointments
-    setSearchParams({});
-  };
+  
 
   return (
     <div>
@@ -234,7 +262,8 @@ const MyAppointments = () => {
             <div></div>
 
             <div className="flex flex-col gap-2 justify-end">
-              {!item.cancelled && (
+              {!item.cancelled && item.payment && <button className="sm:min-w-48 py-2 border rounded-lg text-white bg-green hover:bg-green">Paid</button>}
+              {!item.cancelled && !item.payment && (
                 <button
                   onClick={() => handlePayment(item._id)}
                   className="border text-sm text-stone-500 text-center sm:min-w-48 py-2 rounded-lg hover:bg-green hover:text-white hover:font-semibold transition-all duration-300"

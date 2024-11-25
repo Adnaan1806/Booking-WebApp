@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser,loginUser, getProfile, updateProfile, bookAppointment, listAppointment, cancelAppointment, createPaymentSession } from '../controllers/userController.js';
+import { registerUser,loginUser, getProfile, updateProfile, bookAppointment, listAppointment, cancelAppointment, createPaymentSession, updatePaymentStatus } from '../controllers/userController.js';
 import authUser from '../middlewares/authUser.js';
 import upload from '../middlewares/multer.js';
 
@@ -16,5 +16,7 @@ userRouter.post('/cancel-appointment', authUser, cancelAppointment)
 
 //payment gateway
 userRouter.post("/create-payment-session", authUser, createPaymentSession);
+userRouter.post("/update-payment-status", authUser, updatePaymentStatus);
+
 
 export default userRouter;

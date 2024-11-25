@@ -280,7 +280,7 @@ const createPaymentSession = async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: `http://localhost:5173/my-appointments?success=true`,
+      success_url: `http://localhost:5173/my-appointments?success=true&appointmentId=${appointmentId}`,
       cancel_url: "http://localhost:5173/my-appointments",
     });
 
@@ -292,6 +292,31 @@ const createPaymentSession = async (req, res) => {
   }
 };
 
+
+
+// API to verify the payment
+const updatePaymentStatus = async (req, res) => {
+  try {
+    const { appointmentId } = req.body;
+
+    // Find the appointment by ID
+    const appointment = await appointmentModel.findById(appointmentId);
+    if (!appointment) {
+      return res.status(404).json({ success: false, message: "Appointment not found" });
+    }
+
+    // Update the payment status
+    appointment.payment = true; // Assuming `payment` is a boolean field
+    await appointment.save();
+
+    res.status(200).json({ success: true, message: "Payment status updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Failed to update payment status" });
+  }
+};
+
+
 export {
   registerUser,
   loginUser,
@@ -301,4 +326,5 @@ export {
   listAppointment,
   cancelAppointment,
   createPaymentSession,
+  updatePaymentStatus
 };
