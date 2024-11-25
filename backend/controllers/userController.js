@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { v2 as cloudinary } from "cloudinary";
 import doctorModel from "../models/doctorModel.js";
 import appointmentModel from "../models/appointmentModel.js";
+import Stripe from "stripe";
 
 //API to register user
 
@@ -21,21 +22,22 @@ const registerUser = async (req, res) => {
       return res.json({ success: false, message: "Invalid email" });
     }
 
-       // Validate password strength
-       const strongPasswordOptions = {
-        minLength: 8, // Minimum 8 characters
-        minLowercase: 1, // At least 1 lowercase letter
-        minUppercase: 1, // At least 1 uppercase letter
-        minNumbers: 1, // At least 1 number
-        minSymbols: 1, // At least 1 special character
-      };
-  
-      if (!validator.isStrongPassword(password, strongPasswordOptions)) {
-        return res.json({
-          success: false,
-          message: "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.",
-        });
-      }
+    // Validate password strength
+    const strongPasswordOptions = {
+      minLength: 8, // Minimum 8 characters
+      minLowercase: 1, // At least 1 lowercase letter
+      minUppercase: 1, // At least 1 uppercase letter
+      minNumbers: 1, // At least 1 number
+      minSymbols: 1, // At least 1 special character
+    };
+
+    if (!validator.isStrongPassword(password, strongPasswordOptions)) {
+      return res.json({
+        success: false,
+        message:
+          "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.",
+      });
+    }
 
     //hashing the password
     const salt = await bcrypt.genSalt(10);
@@ -194,57 +196,109 @@ const bookAppointment = async (req, res) => {
 
 const listAppointment = async (req, res) => {
   try {
+    const { userId } = req.body;
+    const appointments = await appointmentModel.find({ userId });
 
-    const {userId} = req.body;
-    const appointments = await appointmentModel.find({userId})
-
-    res.json({success: true, appointments})
-
-  } 
-  catch (error) {
+    res.json({ success: true, appointments });
+  } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
 
-
 //API to cancel appointment
 
 const cancelAppointment = async (req, res) => {
+  try {
+    const { userId, appointmentId } = req.body;
 
-  try{
+    const appointmentData = await appointmentModel.findById(appointmentId);
 
-    const {userId, appointmentId} = req.body;
-
-    const appointmentData = await appointmentModel.findById(appointmentId)
-
-    if(appointmentData.userId !== userId){
-      return res.json({success: false, message: "You are not authorized to cancel this appointment"})
+    if (appointmentData.userId !== userId) {
+      return res.json({
+        success: false,
+        message: "You are not authorized to cancel this appointment",
+      });
     }
 
-    await appointmentModel.findByIdAndUpdate(appointmentId, {cancelled: true})
+    await appointmentModel.findByIdAndUpdate(appointmentId, {
+      cancelled: true,
+    });
 
     //releasing doctor slot
 
-    const {docId, slotDate, slotTime} = appointmentData;
+    const { docId, slotDate, slotTime } = appointmentData;
 
-    const doctorData = await doctorModel.findById(docId)
+    const doctorData = await doctorModel.findById(docId);
 
     let slots_booked = doctorData.slots_booked;
 
-    slots_booked[slotDate] = slots_booked[slotDate].filter(e => e !== slotTime)
+    slots_booked[slotDate] = slots_booked[slotDate].filter(
+      (e) => e !== slotTime
+    );
 
-    await doctorModel.findByIdAndUpdate(docId, {slots_booked})
+    await doctorModel.findByIdAndUpdate(docId, { slots_booked });
 
-    res.json({success: true, message: "Appointment cancelled successfully"})
-
-  }
-  catch(error){
+    res.json({ success: true, message: "Appointment cancelled successfully" });
+  } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
-}
+};
 
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY); // Add your Stripe secret key in your .env file
 
+// API to create a Stripe session
+const createPaymentSession = async (req, res) => {
+  try {
+    const { appointmentId } = req.body;
 
-export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, listAppointment, cancelAppointment };
+    // Fetch appointment details
+    const appointment = await appointmentModel
+      .findById(appointmentId)
+      .populate("docData");
+
+    if (!appointment) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Appointment not found" });
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "usd", // Change to your currency if needed
+            product_data: {
+              name: `Appointment with Dr. ${appointment.docData.name}`,
+              description: `Date: ${appointment.slotDate}, Time: ${appointment.slotTime}`,
+            },
+            unit_amount: appointment.amount * 100, // Stripe expects amounts in cents
+          },
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: `http://localhost:5173/my-appointments?success=true`,
+      cancel_url: "http://localhost:5173/my-appointments",
+    });
+
+    res.status(200).json({ success: true, sessionId: session.id });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Something went wrong" });
+  }
+};
+
+export {
+  registerUser,
+  loginUser,
+  getProfile,
+  updateProfile,
+  bookAppointment,
+  listAppointment,
+  cancelAppointment,
+  createPaymentSession,
+};

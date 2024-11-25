@@ -5,7 +5,7 @@ const About = () => {
   return (
     <div className="min-h-screen p-8 md:p-20">
       {/* Header */}
-      <div className="text-center text-4xl font-bold text-gray-800 pt-5">
+      <div className="text-center text-4xl font-bold text-gray-800">
         <p>
           About <span className="text-primary">US</span>
         </p>
@@ -14,7 +14,7 @@ const About = () => {
       {/* About Section */}
       <div className="my-16 flex flex-col md:flex-row items-center gap-12">
         <img
-          className="w-full md:max-w-[400px] rounded-xl shadow-lg transform hover:scale-105 transition duration-300"
+          className="w-full md:max-w-[350px] rounded-xl shadow-lg transform hover:scale-105 transition duration-300"
           src={assets.about_image}
           alt="About Us"
         />
