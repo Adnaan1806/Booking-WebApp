@@ -6,7 +6,7 @@ import { AppContext } from "../../context/AppContext";
 import { assets } from "../../../../admin/src/assets/assets";
 
 const AllAppointments = () => {
-  const { aToken, appointments, setAppointments, getAllAppointments } =
+  const { aToken, appointments, setAppointments, getAllAppointments, cancelAppointment } =
     useContext(AdminContext);
 
   const { calculateAge, slotDateFormat, currency } = useContext(AppContext);
@@ -66,6 +66,7 @@ const AllAppointments = () => {
               <p className="text-red-400 text-sm font-medium">Cancelled</p>
             ) : (
               <img
+              onClick={() => cancelAppointment(item._id)}
                 className="w-8 bg-gray-100 rounded-full cursor-pointer"
                 src={assets.cancel_icon}
                 alt=""

@@ -24,11 +24,11 @@ const registerUser = async (req, res) => {
 
     // Validate password strength
     const strongPasswordOptions = {
-      minLength: 8, // Minimum 8 characters
-      minLowercase: 1, // At least 1 lowercase letter
-      minUppercase: 1, // At least 1 uppercase letter
-      minNumbers: 1, // At least 1 number
-      minSymbols: 1, // At least 1 special character
+      minLength: 8,
+      minLowercase: 1, 
+      minUppercase: 1, 
+      minNumbers: 1, 
+      minSymbols: 1, 
     };
 
     if (!validator.isStrongPassword(password, strongPasswordOptions)) {
