@@ -25,4 +25,7 @@ const doctorList = async (req, res) => {
   }
 };
 
+
+
+
 export { changeAvailablilty, doctorList };
