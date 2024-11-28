@@ -1,6 +1,7 @@
 import doctorModel from "../models/doctorModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import appointmentModel from "../models/appointmentModel.js";
 
 const changeAvailablilty = async (req, res) => {
   try {
@@ -27,35 +28,44 @@ const doctorList = async (req, res) => {
   }
 };
 
-
 //API for doctor Login
 
 const loginDoctor = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const doctor = await doctorModel.findOne({ email });
 
-  try{
-     const { email, password } = req.body;
-     const doctor = await doctorModel.findOne({email});
-
-    if(!doctor){
+    if (!doctor) {
       return res.json({ success: false, message: "Doctor not found" });
     }
 
     const isMatch = await bcrypt.compare(password, doctor.password);
 
-    if(isMatch){
-      const token = jwt.sign({id:doctor._id}, process.env.JWT_SECRET, {expiresIn: "1h"});
-      return res.json({ success: true, token});
-    }else{
-      return res.json({ success: false, message: "Invalid Credentials" });   //doctor@gmail.com
-    }                                                                        //doctor12345
-
-
-  }
-  catch(error){
+    if (isMatch) {
+      const token = jwt.sign({ id: doctor._id }, process.env.JWT_SECRET);
+      return res.json({ success: true, token });
+    } else {
+      return res.json({ success: false, message: "Invalid Credentials" }); //doctor@gmail.com
+    } //doctor12345
+  } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
+};
 
-}
+//API to get doctor Appointments
 
-export { changeAvailablilty, doctorList, loginDoctor };
+const appointmentsDoctor = async (req, res) => {
+  try {
+    const { docId } = req.body;
+
+    const appointments = await appointmentModel.find({ docId });
+
+    res.json({ success: true, appointments });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export { changeAvailablilty, doctorList, loginDoctor, appointmentsDoctor };
