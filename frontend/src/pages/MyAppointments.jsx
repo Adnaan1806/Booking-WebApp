@@ -178,8 +178,8 @@ const MyAppointments = () => {
             <div></div>
 
             <div className="flex flex-col gap-2 justify-end">
-              {!item.cancelled && item.payment && <button className="sm:min-w-48 py-2 border rounded-lg text-white font-medium bg-green hover:bg-green">Paid</button>}
-              {!item.cancelled && !item.payment && (
+              {!item.cancelled && item.payment && !item.isCompleted && <button className="sm:min-w-48 py-2 border rounded-lg text-white font-medium bg-green hover:bg-green">Paid</button>}
+              {!item.cancelled && !item.payment && !item.isCompleted && (
                 <button
                   onClick={() => handlePayment(item._id)}
                   className="border text-sm text-stone-500 text-center sm:min-w-48 py-2 rounded-lg hover:bg-green hover:text-white hover:font-semibold transition-all duration-300"
@@ -187,7 +187,7 @@ const MyAppointments = () => {
                   Pay Online
                 </button>
               )}
-              {!item.cancelled && (
+              {!item.cancelled && !item.isCompleted && (
                 <button
                   onClick={() => cancelAppointment(item._id)}
                   className="border text-sm text-stone-500 text-center sm:min-w-48 py-2 rounded-lg hover:bg-red-600 hover:text-white hover:font-semibold transition-all duration-300"
@@ -195,11 +195,12 @@ const MyAppointments = () => {
                   Cancel Appointment
                 </button>
               )}
-              {item.cancelled && (
+              {item.cancelled && !item.isCompleted && (
                 <button className="sm:min-w-48 py-2 border text-white font-medium bg-red-500 border-red-500 rounded-lg text-red-500">
                   Appointment Cancelled
                 </button>
               )}
+              {item.isCompleted && <button className="sm:min-w-48 py-2 border font-medium text-white bg-green border-green rounded-lg text-green">Completed</button>}
             </div>
           </div>
         ))}
