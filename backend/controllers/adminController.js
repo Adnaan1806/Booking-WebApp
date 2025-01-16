@@ -43,11 +43,20 @@ const addDoctor = async (req, res) => {
       return res.json({ success: false, message: "Invalid Email" });
     }
 
-    // validating password
-    if (password.length < 8) {
+    // Validate password strength
+    const strongPasswordOptions = {
+      minLength: 8,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    };
+
+    if (!validator.isStrongPassword(password, strongPasswordOptions)) {
       return res.json({
         success: false,
-        message: "Password must be atleast 8 characters long",
+        message:
+          "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.",
       });
     }
 
@@ -171,7 +180,6 @@ const appointmentCancel = async (req, res) => {
 
 const adminDashboard = async (req, res) => {
   try {
-
     const doctors = await doctorModel.find({})
     const users = await userModel.find({})
     const appointments = await appointmentModel.find({})
@@ -184,15 +192,11 @@ const adminDashboard = async (req, res) => {
     }
 
     res.json({ success: true, dashData });
-
-  } 
-  catch (error) {
+  } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
-
-
 
 export {
   addDoctor,
