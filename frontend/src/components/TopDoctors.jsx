@@ -7,35 +7,69 @@ const TopDoctors = () => {
   const { doctors } = useContext(AppContext);
 
   return (
-    <div className="flex flex-col items-center gap-4 my-16 text-gray-900 md:mx-10">
-      <h1 className="text-3xl font-medium">Top Doctors to Book</h1>
-      <p className="sm:w-1/3 text-center text-sm">
-        Simply browse through our extensive list of trusted doctors.
-      </p>
-
-      <div className="w-full grid grid-cols-auto gap-4 pt-5 gap-y-6 px-3 sm:px-0">
-        {doctors.slice(0, 10).map((item, index) => (
-          <div
-          onClick={() => {navigate(`/appointment/${item._id}`); scrollTo(0,0)}}
-            className="border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500"
-            key={index}
-          >
-            <img className="bg-lightOrange" src={item.image} alt="" />
-            <div className="p-4">
-              <div className={`flex items-center gap-2 text-sm text-center ${item.available ? 'text-green' : 'text-gray-500'} `}>
-                <p className={`w-2 h-2 ${item.available ? 'bg-green' : 'bg-gray-500'}  rounded-full`}></p>
-                <p>{item.available ? 'Available' : 'Not Available'}</p>
-              </div>
-              <p className="text-gray-900 text-lg  font-medium">{item.name}</p>
-              <p className="text-gray-600 text-sm">{item.speciality}</p>
-            </div>
-          </div>
-        ))}
+    <div className="flex flex-col md:flex-row items-start gap-10 my-16 px-6 md:px-16">
+      {/* Left Section: Heading and Description */}
+      <div className="md:w-1/3 flex flex-col gap-4 mt-56 text-center md:text-left">
+        <h1 className="text-4xl font-bold text-gray-900">
+          Top Doctors to<span className="text-yellow-300"> Book</span>
+        </h1>
+        <p className="text-sm md:text-base font-regular text-gray-700">
+          Browse through our extensive list of trusted doctors and find the best for your needs.
+        </p>
       </div>
 
-      <button onClick={() => {navigate('/doctors'); scrollTo(0,0)}} className="bg-blue-50 text-gray-600 px-12 py-3 rounded-lg mt-10 hover:translate-y-[5px] hover:bg-blue-200 hover:text-gray-800 transition-all duration-300">
-        more
-      </button>
+      {/* Right Section: Doctor Cards */}
+      <div className="md:w-2/3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {doctors.slice(0, 6).map((item, index) => (
+            <div
+              key={index}
+              className="border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+              onClick={() => {
+                navigate(`/appointment/${item._id}`);
+                scrollTo(0, 0);
+              }}
+            >
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-full h-40 object-cover"
+              />
+              <div className="p-4">
+                <div
+                  className={`flex items-center gap-2 text-sm ${
+                    item.available ? "text-green" : "text-gray-500"
+                  }`}
+                >
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      item.available ? "bg-green" : "bg-gray-500"
+                    }`}
+                  ></span>
+                  <p>{item.available ? "Available" : "Not Available"}</p>
+                </div>
+                <p className="text-lg font-medium text-gray-900 mt-2">
+                  {item.name}
+                </p>
+                <p className="text-sm text-gray-600">{item.speciality}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* More Button */}
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={() => {
+              navigate("/doctors");
+              scrollTo(0, 0);
+            }}
+            className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition-colors duration-300"
+          >
+            More
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

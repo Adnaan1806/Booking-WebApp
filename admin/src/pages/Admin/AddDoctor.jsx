@@ -176,7 +176,7 @@ const AddDoctor = () => {
               className="border rounded-lg px-4 py-2 w-full focus:border-2 focus:border-black/80 focus:outline-none"
               required
             >
-              <option value="General Physician">General Physician</option>
+              <option value="General physician">General physician</option>
               <option value="Gynecologist">Gynecologist</option>
               <option value="Dermatologist">Dermatologist</option>
               <option value="Pediatrician">Pediatrician</option>

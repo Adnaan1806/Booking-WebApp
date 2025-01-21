@@ -1,49 +1,71 @@
 import React from "react";
-import { assets } from "../assets/assets";
 
 const Footer = () => {
   return (
-    <div className="md:mx-10">
-      <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40text-sm">
-        {/*left section*/}
-
-        <div>
-          <img className="mb-5 w-40" src={assets.logo} alt="" />
-          <p className="w-full md:w-2/3 text-gray-600 leading-6">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam
-            nulla iusto quas temporibus, ipsum corrupti labore reprehenderit
-            porro fuga nostrum consequatur eum eos praesentium, maiores
-            voluptas. Atque doloribus debitis minima.
+    <div className="py-16 px-6 md:px-10 lg:px-20 bg-white">
+      {/* Footer Content */}
+      <div className="flex flex-col md:flex-row justify-between gap-28">
+        {/* Left Section */}
+        <div className="flex-1">
+          {/* Replaced Logo */}
+          <div className="flex items-center gap-2 mb-5">
+            <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8 16l-4-4m0 0l4-4m-4 4h16"
+                />
+              </svg>
+            </div>
+            <span className="text-2xl font-bold text-gray-900">Toastify</span>
+          </div>
+          <p className="text-gray-600 leading-7">
+            Toastify connects you with top healthcare professionals for seamless
+            appointment bookings. Simplify your healthcare journey today.
           </p>
         </div>
 
-        {/*center section*/}
-
-        <div>
-          <p className="text-xl font-medium mb-5">COMPANY</p>
-          <ul className="flex flex-col gap-2 text-gray-600">
-            <li>Home</li>
-            <li>About us</li>
-            <li>Contact us</li>
-            <li>Privacy policy</li>
+        {/* Center Section */}
+        <div className="flex-1">
+          <p className="text-lg font-semibold text-gray-900 mb-5">Company</p>
+          <ul className="space-y-3 text-gray-700">
+            <li className="hover:text-blue-500 cursor-pointer">Home</li>
+            <li className="hover:text-blue-500 cursor-pointer">About Us</li>
+            <li className="hover:text-blue-500 cursor-pointer">Contact Us</li>
+            <li className="hover:text-blue-500 cursor-pointer">Privacy Policy</li>
           </ul>
         </div>
 
-        {/*right section*/}
-
-        <div>
-          <p className="text-xl font-medium mb-5">GET IN TOUCH</p>
-          <ul className="flex flex-col gap-2 text-gray-600">
-            <li>+94 76-272-2093</li>
-            <li>adnaanjanees0@gmail.com</li>
+        {/* Right Section */}
+        <div className="flex-1">
+          <p className="text-lg font-semibold text-gray-900 mb-5">Get in Touch</p>
+          <ul className="space-y-3 text-gray-700">
+            <li>Phone: +94 76-272-2093</li>
+            <li>Email: adnaanjanees0@gmail.com</li>
           </ul>
         </div>
       </div>
 
-      {/*copyright section*/}
-      <div>
-        <hr />
-        <p className="py-5 text-sm text-center">Copyright 2024@ Prescripto - All Rights Reserved.</p>
+      {/* Decorative Elements */}
+      <div className="relative mt-10">
+        <div className="absolute -top-10 left-1/4 w-28 h-28 bg-blue-500 rounded-full blur-2xl opacity-30"></div>
+        <div className="absolute -bottom-10 right-1/4 w-32 h-32 bg-yellow-400 rounded-full blur-2xl opacity-30"></div>
+      </div>
+
+      {/* Divider and Copyright Section */}
+      <div className="relative mt-16">
+        <hr className="border-gray-300" />
+        <p className="py-5 text-sm text-gray-600 text-center">
+          © 2024 Toastify. All Rights Reserved.
+        </p>
       </div>
     </div>
   );

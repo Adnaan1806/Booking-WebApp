@@ -3,37 +3,45 @@ import { assets } from "../assets/assets";
 
 const Header = () => {
   return (
-    <div className="flex flex-col md:flex-row flex-wrap bg-primary rounded-lg px-6 md:px-10 lg:px-20">
-      {/* left side */}
+    <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 text-white overflow-hidden rounded-md">
+      {/* Floating Icons */}
+      <div className="absolute top-[-50px] left-[-50px] w-40 h-40 bg-white bg-opacity-20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-[-50px] right-[-50px] w-60 h-60 bg-white bg-opacity-10 rounded-full blur-3xl"></div>
 
-      <div className="md:w-1/2 flex flex-col items-start justify-center gap-4 py-10 m-auto md:py-[10vw] md:mb-[-30px]">
-        <p className="text-3xl md:text-4xl lg:text-5xl text-white font-semibold leading-tight md:leading-tight lg:leading-tight">
-          Book Appointment <br /> With Trusted Doctors
-        </p>
-        <div className="flex flex-col md:flex-row items-center gap-3 text-white text-sm font-light">
-          <img className="w-28" src={assets.group_profiles} alt="" />
-          <p>
-            Simply browse through our extensive list of trusted doctors,{" "}
-            <br className="hidden sm:block" /> schedule your appointment
-            hassle-free.
+      <div className="flex flex-col md:flex-row items-center justify-between px-6 md:px-16 lg:px-24 py-12 md:py-20">
+        {/* Left Section */}
+        <div className="md:w-1/2 flex flex-col gap-6 z-10">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            <span className="text-yellow-300">Book Your Appointment</span> <br />
+            With <span className="underline decoration-slice decoration-yellow-400">Trusted Doctors</span>
+          </h1>
+          <p className="text-sm md:text-base font-light leading-relaxed">
+            Browse our extensive list of trusted doctors and schedule your appointments hassle-free. Your health is our priority.
           </p>
+          <div className="flex items-center gap-4">
+            <a
+              href="#speciality"
+              className="bg-yellow-400 text-gray-800 px-6 py-3 hover:scale-105 font-medium rounded-lg shadow-lg hover:bg-yellow-300 hover:shadow-xl transition-all duration-300"
+            >
+              Book Appointment
+            </a>
+            <a
+              href="#learn-more"
+              className="text-white underline hover:text-yellow-300 transition-all duration-300"
+            >
+              Learn More
+            </a>
+          </div>
         </div>
-        <a
-          href="#speciality"
-          className="flex items-center gap-2 bg-white px-7 py-3 rounded-lg text-gray-600 text-sm m-auto md:m-0 hover:scale-105 hover:font-medium transition-all duration-300"
-        >
-          Book Appointment <img className="w-3" src={assets.arrow_icon} alt="" />
-        </a>
-      </div>
 
-      {/* right side */}
-
-      <div className="md:w-1/2 relative">
-        <img
-          className="w-full md:absolute bottom-0 h-auto rounded-lg"
-          src={assets.header_img}
-          alt=""
-        />
+        {/* Right Section */}
+        <div className="md:w-1/2 relative z-10">
+          <img
+            className="w-full max-w-md md:max-w-lg lg:max-w-xl mx-auto rounded-lg shadow-lg"
+            src={assets.header_img}
+            alt="Header Illustration"
+          />
+        </div>
       </div>
     </div>
   );
