@@ -21,6 +21,7 @@ const Navbar = () => {
         onClick={() => navigate("/")}
         className="w-44 cursor-pointer"
         src={assets.logo}
+        width={2}
         alt=""
       />
       <ul className="hidden md:flex items-start gap-5 font-medium">

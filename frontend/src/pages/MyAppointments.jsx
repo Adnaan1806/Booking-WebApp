@@ -12,6 +12,7 @@ const MyAppointments = () => {
 
   const [appointments, setAppointments] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const months = [
@@ -107,6 +108,7 @@ const MyAppointments = () => {
         toast.success(data.message);
         getUserAppointments();
         getDoctorsData();
+        closePopup();  // Close the popup after cancellation
       } else {
         toast.error(data.message);
       }
@@ -116,8 +118,14 @@ const MyAppointments = () => {
     }
   };
 
+  const openPopup = (appointmentId) => {
+    setSelectedAppointmentId(appointmentId);
+    setShowPopup(true); // Show the popup when user clicks cancel
+  };
+
   const closePopup = () => {
-    setShowPopup(false); // Close the popup when clicked
+    setShowPopup(false); // Close the popup
+    setSelectedAppointmentId(null); // Reset the selected appointment ID
   };
 
   useEffect(() => {
@@ -145,7 +153,7 @@ const MyAppointments = () => {
         My Appointments
       </p>
 
-
+      {/* Appointment List */}
       <div>
         {appointments.map((item, index) => (
           <div
@@ -189,7 +197,7 @@ const MyAppointments = () => {
               )}
               {!item.cancelled && !item.isCompleted && (
                 <button
-                  onClick={() => cancelAppointment(item._id)}
+                  onClick={() => openPopup(item._id)} // Open the popup when user clicks cancel
                   className="border text-sm text-stone-500 text-center sm:min-w-48 py-2 rounded-lg hover:bg-red-600 hover:text-white hover:font-semibold transition-all duration-300"
                 >
                   Cancel Appointment
@@ -205,6 +213,29 @@ const MyAppointments = () => {
           </div>
         ))}
       </div>
+
+      {/* Confirmation Popup */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-70 flex justify-center items-center z-50">
+          <div className="bg-white w-full max-w-xs sm:max-w-sm p-6 rounded-lg mx-4">
+            <p className="text-lg text-center font-regular mb-8">⚠️ Are you sure you want to cancel this appointment? 🗓️❌</p>
+            <div className="flex justify-center items-center gap-10">
+              <button
+                onClick={() => cancelAppointment(selectedAppointmentId)}
+                className="border text-slate-600 py-2 px-3 rounded hover:bg-red-600 hover:text-white font-semibold transition-all duration-400"
+              >
+                Yes, Cancel
+              </button>
+              <button
+                onClick={closePopup}
+                className="border text-slate-600 py-2 px-3 rounded hover:bg-gray-500 hover:text-white font-semibold transition-all duration-400"
+              >
+                No, Keep
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

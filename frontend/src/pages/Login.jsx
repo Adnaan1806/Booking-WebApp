@@ -13,9 +13,9 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // New state for toggling password visibility
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const onSubmitHander = async (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
 
     try {
@@ -42,6 +42,9 @@ const Login = () => {
         if (data.success) {
           localStorage.setItem("token", data.token);
           setToken(data.token);
+          toast.success("Logged in successfully!");
+
+          // Redirect to QR code verification page
           window.location.href = "http://localhost:3004/";
         } else {
           toast.error(data.message);
@@ -53,13 +56,28 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (token) {
-      navigate("/");
-    }
-  }, [token]);
+    // Handle back navigation
+    const handlePopState = () => {
+      if (!localStorage.getItem("verified")) {
+        // Remove token if verification not completed
+        localStorage.removeItem("token");
+        setToken(null);
+        toast.warning("Session expired. Please log in again.");
+        navigate("/login");
+      }
+    };
+
+    // Add event listener for back navigation
+    window.addEventListener("popstate", handlePopState);
+
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [navigate, setToken]);
 
   return (
-    <form onSubmit={onSubmitHander} className="min-h-[80vh] flex items-center">
+    <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
       <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-lg text-zinc-600 text-sm shadow-lg">
         <p className="text-2xl w-full flex justify-center font-semibold">
           {state === "Sign Up" ? "Create Account" : "Login"}
@@ -96,16 +114,16 @@ const Login = () => {
           <p>Password</p>
           <input
             className="border border-zinc-300 rounded w-full p-2 mt-1"
-            type={isPasswordVisible ? "text" : "password"} // Toggle between text and password
+            type={isPasswordVisible ? "text" : "password"}
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             required
           />
           <span
             className="absolute right-3 top-10 cursor-pointer text-gray-500"
-            onClick={() => setIsPasswordVisible(!isPasswordVisible)} // Toggle visibility state
+            onClick={() => setIsPasswordVisible(!isPasswordVisible)}
           >
-            {!isPasswordVisible ? <FaEyeSlash /> : <FaEye />} {/* Show icon */}
+            {!isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
         <button

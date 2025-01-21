@@ -5,13 +5,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const MyProfile = () => {
-  const {
-    userData,
-    setUserData,
-    token,
-    backendUrl,
-    loadUserProfileData,
-  } = useContext(AppContext);
+  const { userData, setUserData, token, backendUrl, loadUserProfileData } =
+    useContext(AppContext);
 
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState(false);
@@ -86,7 +81,9 @@ const MyProfile = () => {
               }
             />
           ) : (
-            <p className="font-semibold text-3xl text-gray-800">{userData.name}</p>
+            <p className="font-semibold text-3xl text-gray-800">
+              {userData.name}
+            </p>
           )}
         </div>
 
@@ -94,7 +91,9 @@ const MyProfile = () => {
 
         <div className="text-left space-y-6">
           <div>
-            <p className="text-xl font-semibold text-gray-700">Contact Information</p>
+            <p className="text-xl font-semibold text-gray-700">
+              Contact Information
+            </p>
             <div className="grid grid-cols-[1fr_3fr] gap-4 mt-4">
               <p>Email:</p>
               <p className="text-blue-500">{userData.email}</p>
@@ -105,12 +104,19 @@ const MyProfile = () => {
                   className="bg-gray-100 p-2 rounded-lg border focus:outline-none"
                   type="text"
                   value={userData.phone}
-                  onChange={(e) =>
-                    setUserData((prev) => ({ ...prev, phone: e.target.value }))
-                  }
+                  maxLength={12} // Limits input to 11 characters
+                  pattern="^\+?[0-9]{1,11}$" // Regex for validation
+                  placeholder="Enter phone number"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    // Allow only numbers and '+' at the start
+                    if (/^\+?[0-9]*$/.test(value) && value.length <= 12) {
+                      setUserData((prev) => ({ ...prev, phone: value }));
+                    }
+                  }}
                 />
               ) : (
-                <p className="text-blue-500">{userData.phone}</p>
+                <p>{userData.phone}</p>
               )}
 
               <p>Address:</p>
@@ -140,13 +146,17 @@ const MyProfile = () => {
                   />
                 </div>
               ) : (
-                <p>{userData.address.line1} <br /> {userData.address.line2}</p>
+                <p>
+                  {userData.address.line1} <br /> {userData.address.line2}
+                </p>
               )}
             </div>
           </div>
 
           <div>
-            <p className="text-xl font-semibold text-gray-700">Basic Information</p>
+            <p className="text-xl font-semibold text-gray-700">
+              Basic Information
+            </p>
             <div className="grid grid-cols-[1fr_3fr] gap-4 mt-4">
               <p>Gender:</p>
               {isEdit ? (
