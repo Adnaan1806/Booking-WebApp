@@ -11,7 +11,7 @@ const TopDoctors = () => {
       {/* Left Section: Heading and Description */}
       <div className="md:w-1/3 flex flex-col gap-4 mt-56 text-center md:text-left">
         <h1 className="text-4xl font-bold text-gray-900">
-          Top Doctors to<span className="text-yellow-300"> Book</span>
+          Book Appointments with<span className="text-yellow-300"> Top Specialists</span>
         </h1>
         <p className="text-sm md:text-base font-regular text-gray-700">
           Browse through our extensive list of trusted doctors and find the best for your needs.

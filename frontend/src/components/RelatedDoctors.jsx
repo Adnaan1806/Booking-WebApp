@@ -1,53 +1,85 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 
-const RelatedDoctors = ({speciality,docId}) => {
+const RelatedDoctors = ({ speciality, docId }) => {
+  const { doctors } = useContext(AppContext);
+  const navigate = useNavigate();
 
-const { doctors } = useContext(AppContext);
-const navigate = useNavigate();
+  const [relDoc, setRelDocs] = useState([]);
 
-const [relDoc, setRelDocs] = useState([]);
-
-useEffect(() => {
- if(doctors.length > 0 && speciality){
-    const doctorsData = doctors.filter((doc) => doc.speciality === speciality && doc._id !== docId);
-    setRelDocs(doctorsData);
- }
-}, [doctors,speciality,docId]);
+  useEffect(() => {
+    if (doctors.length > 0 && speciality) {
+      const doctorsData = doctors.filter(
+        (doc) => doc.speciality === speciality && doc._id !== docId
+      );
+      setRelDocs(doctorsData);
+    }
+  }, [doctors, speciality, docId]);
 
   return (
-    <div className="flex flex-col items-center gap-4 my-16 text-gray-900 md:mx-10">
-    <h1 className="text-3xl font-medium">Top Doctors to Book</h1>
-    <p className="sm:w-1/3 text-center text-sm">
-      Simply browse through our extensive list of trusted doctors.
-    </p>
+    <div className="flex flex-col items-center gap-12 px-6 py-12 mt-16">
+      {/* Header Section */}
+      <div className="text-center">
+        <h1 className="text-4xl font-extrabold text-gray-800">
+          Top Doctors to <span className='text-yellow-300'>Book</span> 
+        </h1>
+        <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+          Discover highly trusted doctors and book your appointments seamlessly.
+        </p>
+      </div>
 
-    <div className="w-full grid grid-cols-auto gap-4 pt-5 gap-y-6 px-3 sm:px-0">
-      {relDoc.slice(0, 5).map((item, index) => (
-        <div
-          onClick={() => {navigate(`/appointment/${item._id}`); scrollTo(0,0)}}
-          className="border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500"
-          key={index}
-        >
-          <img className="bg-lightOrange" src={item.image} alt="" />
-          <div className="p-4">
-          <div className={`flex items-center gap-2 text-sm text-center ${item.available ? 'text-green' : 'text-gray-500'} `}>
-                <p className={`w-2 h-2 ${item.available ? 'bg-green' : 'bg-gray-500'}  rounded-full`}></p>
+      {/* Doctors Section */}
+      <div className="w-full grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-4">
+        {relDoc.slice(0, 6).map((item, index) => (
+          <div
+            key={index}
+            onClick={() => navigate(`/appointment/${item._id}`)}
+            className="bg-white border rounded-xl shadow-md overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105"
+          >
+            {/* Doctor Image */}
+            <div className="w-full h-48 flex items-center justify-center bg-white">
+              <img
+                className="h-full w-auto object-contain"
+                src={item.image}
+                alt={item.name}
+              />
+            </div>
+            {/* Doctor Details */}
+            <div className="p-4">
+              <div
+                className={`flex items-center gap-2 text-sm ${
+                  item.available ? 'text-green' : 'text-gray-400'
+                }`}
+              >
+                <span
+                  className={`w-2.5 h-2.5 rounded-full ${
+                    item.available ? 'bg-green' : 'bg-gray-400'
+                  }`}
+                ></span>
                 <p>{item.available ? 'Available' : 'Not Available'}</p>
               </div>
-            <p className="text-gray-900 text-lg  font-medium">{item.name}</p>
-            <p className="text-gray-600 text-sm">{item.speciality}</p>
+              <h2 className="text-lg font-semibold text-gray-800 mt-2">
+                {item.name}
+              </h2>
+              <p className="text-sm text-gray-600">{item.speciality}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+
+      {/* More Button */}
+      <button
+        onClick={() => {
+          navigate('/doctors');
+          scrollTo(0, 0);
+        }}
+        className="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-6 py-3 hover:scale-105 mt-6 font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+      >
+        View More Doctors
+      </button>
     </div>
+  );
+};
 
-    <button onClick={() => {navigate('/doctors'); scrollTo(0,0)}} className="bg-blue-50 text-gray-600 px-12 py-3 rounded-lg mt-10 hover:translate-y-[5px] hover:bg-blue-200 hover:text-gray-800 transition-all duration-300">
-      more
-    </button>
-  </div>
-  )
-}
-
-export default RelatedDoctors
+export default RelatedDoctors;

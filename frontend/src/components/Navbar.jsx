@@ -17,10 +17,13 @@ const Navbar = () => {
   return (
     <div className="flex items-center justify-between text-sm py-4 mb-5 border-b border-gray-300">
       {/* Logo */}
-      <div onClick={() => navigate("/")} className="cursor-pointer flex items-center gap-2">
-      
-        <h1 className="text-3xl font-bold text-primary">
-          <span className="text-customOrange">Toastify</span>
+      <div
+        onClick={() => navigate("/")}
+        className="cursor-pointer flex items-center gap-2"
+      >
+        <h1 className="text-3xl font-extrabold tracking-wide">
+          <span className="text-black">Toastify</span>
+          <span className="text-primary">.</span>
         </h1>
       </div>
 

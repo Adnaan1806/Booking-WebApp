@@ -5,7 +5,6 @@ import { AppContext } from "../context/AppContext";
 const Doctors = () => {
   const { speciality } = useParams();
   const [filterDoc, setFilterDoc] = useState([]);
-  const [showFilter, setShowFilter] = useState(false);
   const navigate = useNavigate();
 
   const { doctors } = useContext(AppContext);
@@ -32,61 +31,76 @@ const Doctors = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center gap-10 px-4">
+    <div className="flex flex-col items-center gap-12 px-6 py-12">
       {/* Header Section */}
-      <p className="text-center text-4xl font-bold text-gray-800 pt-10 mb-6">
-        Browse through the <span className="text-primary">doctor specialities.</span>
-      </p>
+      <div className="text-center">
+        <h1 className="text-4xl font-extrabold text-gray-800">
+          Find Your <span className="text-yellow-300">Specialist</span>
+        </h1>
+        <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+          Discover the best doctors across various specialties and book an appointment effortlessly.
+        </p>
+      </div>
 
       {/* Specialities Section */}
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap justify-center gap-4 p-3 rounded-md">
         {specialities.map((spec) => (
-          <p
+          <button
             key={spec}
             onClick={() =>
               speciality === spec
                 ? navigate("/doctors")
                 : navigate(`/doctors/${spec}`)
             }
-            className={`px-5 py-2 border border-gray-100 rounded-lg hover:scale-105 cursor-pointer text-sm font-medium shadow-sm hover:shadow-lg transition-all duration-600 ${
+            className={`px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-sm ${
               speciality === spec
-                ? "bg-purple text-white font-semibold"
-                : "text-gray-600 hover:bg-primary hover:text-white transition-all duration-400"
+                ? "bg-blue-500 text-white shadow-lg"
+                : "bg-white text-gray-700 hover:bg-blue-400 hover:text-white"
             }`}
           >
             {spec}
-          </p>
+          </button>
         ))}
       </div>
 
       {/* Doctors Section */}
-      <div className="w-full grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-  {filterDoc.map((item, index) => (
-    <div
-      key={index}
-      onClick={() => navigate(`/appointment/${item._id}`)}
-      className="border border-blue-100 rounded-xl shadow-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105"
-    >
-      {/* Updated Image Styling */}
-      <div className="w-full h-45 flex items-center justify-center bg-lightOrange">
-        <img
-          className="h-full w-auto object-contain"
-          src={item.image}
-          alt={item.name}
-        />
-      </div>
-      <div className="p-4">
-      <div className={`flex items-center gap-2 text-sm text-center ${item.available ? 'text-green' : 'text-gray-500'} `}>
-                <p className={`w-2 h-2 ${item.available ? 'bg-green' : 'bg-gray-500'}  rounded-full`}></p>
-                <p>{item.available ? 'Available' : 'Not Available'}</p>
+      <div className="w-full grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {filterDoc.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => navigate(`/appointment/${item._id}`)}
+            className="bg-white border rounded-xl shadow-sm overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105"
+          >
+            {/* Doctor Image */}
+            <div className="w-full h-48 flex items-center justify-center bg-white">
+              <img
+                className="h-full w-auto object-contain"
+                src={item.image}
+                alt={item.name}
+              />
+            </div>
+            {/* Doctor Details */}
+            <div className="p-4">
+              <div
+                className={`flex items-center gap-2 text-sm ${
+                  item.available ? "text-green" : "text-gray-400"
+                }`}
+              >
+                <span
+                  className={`w-2.5 h-2.5 rounded-full ${
+                    item.available ? "bg-green" : "bg-gray-400"
+                  }`}
+                ></span>
+                <p>{item.available ? "Available" : "Not Available"}</p>
               </div>
-        <p className="text-gray-900 text-lg font-medium">{item.name}</p>
-        <p className="text-gray-600 text-sm">{item.speciality}</p>
+              <h2 className="text-lg font-semibold text-gray-800 mt-2">
+                {item.name}
+              </h2>
+              <p className="text-sm text-gray-600">{item.speciality}</p>
+            </div>
+          </div>
+        ))}
       </div>
-    </div>
-  ))}
-</div>
-
     </div>
   );
 };
