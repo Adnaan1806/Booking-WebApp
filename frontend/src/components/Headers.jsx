@@ -37,7 +37,7 @@ const Header = () => {
         {/* Right Section */}
         <div className="md:w-1/2 relative z-10">
           <img
-            className="w-full max-w-md md:max-w-lg lg:max-w-xl mx-auto rounded-lg shadow-lg"
+            className="w-full max-w-md md:max-w-lg lg:max-w-xl mx-auto rounded-lg"
             src={assets.header_img}
             alt="Header Illustration"
           />

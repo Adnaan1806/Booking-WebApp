@@ -24,7 +24,7 @@ const Banner = () => {
       {/* Right Side */}
       <div className="flex-shrink-0 w-full md:w-1/2 lg:w-[370px] mt-8 md:mt-0 p-4 flex justify-center">
         <img
-          className="max-w-full h-auto shadow-lg rounded-lg"
+          className="max-w-full h-auto rounded-lg"
           src={assets.appointment_img}
           alt="Appointment"
         />

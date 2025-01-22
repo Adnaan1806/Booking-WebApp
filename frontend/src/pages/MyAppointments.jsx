@@ -162,7 +162,7 @@ const MyAppointments = () => {
           >
             <div>
               <img
-                className="w-32 bg-lightOrange rounded"
+                className="w-32 bg-white border rounded-lg"
                 src={item.docData.image}
                 alt=""
               />
