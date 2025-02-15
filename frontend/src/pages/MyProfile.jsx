@@ -108,6 +108,7 @@ const MyProfile = () => {
                     className="bg-white p-2 rounded-lg border focus:outline-none"
                     type="text"
                     value={userData.phone}
+                    minLength={11}
                     onChange={(e) =>
                       setUserData((prev) => ({ ...prev, phone: e.target.value }))
                     }

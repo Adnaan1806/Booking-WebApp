@@ -1,25 +1,37 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import { FiSearch } from "react-icons/fi";
 
 const Doctors = () => {
   const { speciality } = useParams();
   const [filterDoc, setFilterDoc] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search input
   const navigate = useNavigate();
 
   const { doctors } = useContext(AppContext);
 
   const applyFilter = () => {
+    let filteredDoctors = doctors;
+
     if (speciality) {
-      setFilterDoc(doctors.filter((doc) => doc.speciality === speciality));
-    } else {
-      setFilterDoc(doctors);
+      filteredDoctors = filteredDoctors.filter(
+        (doc) => doc.speciality === speciality
+      );
     }
+
+    if (searchQuery) {
+      filteredDoctors = filteredDoctors.filter((doc) =>
+        doc.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilterDoc(filteredDoctors);
   };
 
   useEffect(() => {
     applyFilter();
-  }, [doctors, speciality]);
+  }, [doctors, speciality, searchQuery]); // Include searchQuery in dependencies
 
   const specialities = [
     "General physician",
@@ -38,8 +50,24 @@ const Doctors = () => {
           Find Your <span className="text-yellow-300">Specialist</span>
         </h1>
         <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-          Discover the best doctors across various specialties and book an appointment effortlessly.
+          Discover the best doctors across various specialties and book an
+          appointment effortlessly.
         </p>
+      </div>
+
+      {/* Search Bar */}
+      <div className="relative w-full max-w-md">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search by doctor's name..."
+          className="w-full px-4 py-2 pl-12 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <FiSearch
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+          size={20}
+        />
       </div>
 
       {/* Specialities Section */}

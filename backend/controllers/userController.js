@@ -142,13 +142,17 @@ const updateProfile = async (req, res) => {
 // API to book Appointment
 const bookAppointment = async (req, res) => {
   try {
-    const { userId, docId, slotDate, slotTime } = req.body;
+    const { userId, docId, slotDate, slotTime,medicalReason } = req.body;
 
     // Fetch doctor data
     const docData = await doctorModel.findById(docId).select("-password");
     if (!docData.available) {
       return res.json({ success: false, message: "Doctor not available" });
     }
+
+    if (!medicalReason) {
+      return res.json({ success: false, message: "Medical reason is required" });
+  }
 
     // Fetch the user's active appointments
     const activeAppointments = await appointmentModel.countDocuments({
@@ -197,6 +201,7 @@ const bookAppointment = async (req, res) => {
       cancelled: false,
       payment: false,
       isCompleted: false,
+      medicalReason 
     };
 
     // Save the new appointment

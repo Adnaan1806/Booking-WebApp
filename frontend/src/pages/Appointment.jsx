@@ -16,6 +16,7 @@ const Appointment = () => {
   const [docSlots, setDocSlots] = useState([]);
   const [slotIndex, setSlotIndex] = useState(0);
   const [slotTime, setSlotTime] = useState("");
+  const [medicalReason, setMedicalReason] = useState("");
 
   const navigate = useNavigate();
 
@@ -85,6 +86,10 @@ const Appointment = () => {
       toast.warn("Please login to book appointment");
       return navigate("/login");
     }
+    if (!medicalReason.trim()) {
+      toast.warn("Please enter a medical reason for the appointment");
+      return;
+    }
 
     try {
       const date = docSlots[slotIndex][0].datetime;
@@ -95,7 +100,7 @@ const Appointment = () => {
 
       const { data } = await axios.post(
         backendUrl + "/api/user/book-appointment",
-        { docId, slotDate, slotTime },
+        { docId, slotDate, slotTime, medicalReason },
         { headers: { token } }
       );
       if (data.success) {
@@ -122,7 +127,7 @@ const Appointment = () => {
   return (
     docInfo && (
       <div className="p-6 sm:p-10">
-        {/* Doctor Details */}
+            {/* Doctor Details */}
         <div className="flex flex-col sm:flex-row gap-8 items-center">
           <img
             className="w-72 h-72 rounded-lg object-cover border-2 hover:shadow-lg hover:scale-105 transition-all duration-300"
@@ -145,10 +150,8 @@ const Appointment = () => {
           </div>
         </div>
 
-       
-       {/*Booking slots*/}
-<div className="flex flex-col items-center mt-14 font-medium text-gray-700">
-  <p className="text-4xl font-bold text-gray-900">Booking <span className="text-yellow-300">Slots</span></p>
+        <div className="flex flex-col items-center mt-14 font-medium text-gray-700">
+        <p className="text-4xl font-bold text-gray-900">Booking <span className="text-yellow-300">Slots</span></p>
   <div className="flex gap-3 items-center w-full overflow-x-scroll mt-10 text-center justify-center">
     {docSlots.length &&
       docSlots.map((item, index) => (
@@ -183,17 +186,22 @@ const Appointment = () => {
         </p>
       ))}
   </div>
+          <textarea
+            type="text"
+            placeholder="Enter medical reason"
+            value={medicalReason}
+            onChange={(e) => setMedicalReason(e.target.value)}
+            className="mt-6 p-3 border rounded-md w-full max-w-lg"
+          />
 
-  <button
-    onClick={bookAppointment}
-    className="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-6 py-3 hover:scale-105 mt-10 font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
-  >
-    Book an Appointment
-  </button>
-</div>
+          <button
+            onClick={bookAppointment}
+            className="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-6 py-3 hover:scale-105 mt-10 font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+          >
+            Book an Appointment
+          </button>
+        </div>
 
-
-        {/* Related Doctors */}
         <RelatedDoctors docId={docId} speciality={docInfo.speciality} />
       </div>
     )
