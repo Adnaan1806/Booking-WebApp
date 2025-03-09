@@ -92,42 +92,49 @@ const Doctors = () => {
       </div>
 
       {/* Doctors Section */}
+      {/* Doctors Section */}
       <div className="w-full grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {filterDoc.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => navigate(`/appointment/${item._id}`)}
-            className="bg-white border rounded-xl shadow-sm overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105"
-          >
-            {/* Doctor Image */}
-            <div className="w-full h-48 flex items-center justify-center bg-white">
-              <img
-                className="h-full w-auto object-contain"
-                src={item.image}
-                alt={item.name}
-              />
-            </div>
-            {/* Doctor Details */}
-            <div className="p-4">
-              <div
-                className={`flex items-center gap-2 text-sm ${
-                  item.available ? "text-green" : "text-gray-400"
-                }`}
-              >
-                <span
-                  className={`w-2.5 h-2.5 rounded-full ${
-                    item.available ? "bg-green" : "bg-gray-400"
-                  }`}
-                ></span>
-                <p>{item.available ? "Available" : "Not Available"}</p>
+        {filterDoc.length > 0 ? (
+          filterDoc.map((item, index) => (
+            <div
+              key={index}
+              onClick={() => navigate(`/appointment/${item._id}`)}
+              className="bg-white border rounded-xl shadow-sm overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105"
+            >
+              {/* Doctor Image */}
+              <div className="w-full h-48 flex items-center justify-center bg-white">
+                <img
+                  className="h-full w-auto object-contain"
+                  src={item.image}
+                  alt={item.name}
+                />
               </div>
-              <h2 className="text-lg font-semibold text-gray-800 mt-2">
-                {item.name}
-              </h2>
-              <p className="text-sm text-gray-600">{item.speciality}</p>
+              {/* Doctor Details */}
+              <div className="p-4">
+                <div
+                  className={`flex items-center gap-2 text-sm ${
+                    item.available ? "text-green" : "text-gray-400"
+                  }`}
+                >
+                  <span
+                    className={`w-2.5 h-2.5 rounded-full ${
+                      item.available ? "bg-green" : "bg-gray-400"
+                    }`}
+                  ></span>
+                  <p>{item.available ? "Available" : "Not Available"}</p>
+                </div>
+                <h2 className="text-lg font-semibold text-gray-800 mt-2">
+                  {item.name}
+                </h2>
+                <p className="text-sm text-gray-600">{item.speciality}</p>
+              </div>
             </div>
+          ))
+        ) : (
+          <div className="col-span-full text-center py-10">
+            <p className="text-red-600 text-base">Search result not found.</p>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

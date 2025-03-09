@@ -176,7 +176,7 @@ const MyAppointments = () => {
               <p className="text-xs">{item.docData.address.line1}</p>
               <p className="text-xs">{item.docData.address.line2}</p>
               <p className="text-zinc-700 font-medium mt-1">Medical Reason:</p>
-              <p className="text-xs">{item.medicalReason}</p>
+              <p className="text-xs text-red-500">{item.medicalReason}</p>
               <p className="text-xs mt-1">
                 <span className="text-sm text-neutral-700 font-medium">
                   Date & Time:
@@ -219,9 +219,9 @@ const MyAppointments = () => {
       {/* Confirmation Popup */}
       {showPopup && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-white w-full max-w-xs sm:max-w-sm p-6 rounded-lg mx-4">
-            <p className="text-lg text-center font-regular mb-8">⚠️ Are you sure you want to cancel this appointment? 🗓️❌</p>
-            <div className="flex justify-center items-center gap-10">
+          <div className="bg-white w-full max-w-xs sm:max-w-lg p-6 rounded-lg mx-4">
+            <p className="text-lg text-center font-regular mb-8">⚠️ Are you sure you want to cancel this appointment? 🗓️ </p>
+            <div className="flex justify-center items-center gap-9">
               <button
                 onClick={() => cancelAppointment(selectedAppointmentId)}
                 className="border text-slate-600 py-2 px-3 rounded hover:bg-red-600 hover:text-white font-semibold transition-all duration-400"

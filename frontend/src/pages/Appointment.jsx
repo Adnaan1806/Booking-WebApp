@@ -107,6 +107,7 @@ const Appointment = () => {
         toast.success(data.message);
         getDoctorsData();
         navigate("/my-appointments");
+
       } else {
         toast.error(data.message);
       }
@@ -191,7 +192,7 @@ const Appointment = () => {
             placeholder="Enter medical reason"
             value={medicalReason}
             onChange={(e) => setMedicalReason(e.target.value)}
-            className="mt-6 p-3 border rounded-md w-full max-w-lg"
+            className="mt-8 p-4 border rounded-md w-full max-w-lg"
           />
 
           <button

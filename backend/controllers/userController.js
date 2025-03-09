@@ -137,7 +137,6 @@ const updateProfile = async (req, res) => {
   }
 };
 
-//API to book Appointment
 
 // API to book Appointment
 const bookAppointment = async (req, res) => {
@@ -211,13 +210,13 @@ const bookAppointment = async (req, res) => {
     // Save updated slots in doctor's data
     await doctorModel.findByIdAndUpdate(docId, { slots_booked });
 
+
     res.json({ success: true, message: "Appointment booked successfully" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
-
 
 
 
